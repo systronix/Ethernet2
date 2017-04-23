@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #Ethernet2
 
 * This is a fork of the Adafruit [Ethernet 2 library](https://github.com/adafruit/Ethernet2)
@@ -51,7 +50,3 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
-
-[W5100]:                   http://www.wiznet.co.kr/product-item/w5100/
-[W5500]:                   http://www.wiznet.co.kr/product-item/w5500/
->>>>>>> upstream/master
