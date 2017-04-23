@@ -22,6 +22,8 @@
 class EthernetClass {
 private:
   IPAddress _dnsServerAddress;
+  char* _dnsDomainName;
+  char* _hostName;
   DhcpClass* _dhcp;
 public:
   uint8_t w5500_cspin;
@@ -29,7 +31,7 @@ public:
   static uint8_t _state[MAX_SOCK_NUM];
   static uint16_t _server_port[MAX_SOCK_NUM];
 
-  EthernetClass() { w5500_cspin = 10; }
+  EthernetClass() { _dhcp = NULL; w5500_cspin = 10; }
   void init(uint8_t _cspin = 10) { w5500_cspin = _cspin; }
 
 #if defined(WIZ550io_WITH_MACADDRESS)
@@ -60,6 +62,8 @@ public:
   IPAddress subnetMask();
   IPAddress gatewayIP();
   IPAddress dnsServerIP();
+  char* dnsDomainName();
+  char* hostName();
 
   friend class EthernetClient;
   friend class EthernetServer;
