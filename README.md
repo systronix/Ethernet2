@@ -1,18 +1,7 @@
-#Ethernet2
+# Ethernet2
 
 * This is a fork of the Adafruit [Ethernet 2 library](https://github.com/adafruit/Ethernet2)
 * This library supports the [WIX85io module] http://www.wiznet.co.kr/product-item/wiz850io/) and W5500 chip
-
-##Installation
-------------
-Clone this repo into your Arduino/lbraries folder
-
-##Hardware
-
-##Tips
-=======
-Ethernet "2" Library for Arduino
-================================
 
 This Arduino library is for shields that use the **Wiznet [W5500]** chipset only.
 It does **not** work with other chipsets, such as the original Arduino Ethernet shield which
