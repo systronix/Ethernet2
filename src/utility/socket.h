@@ -23,6 +23,10 @@ extern void flush(SOCKET s); // Wait for transmission to complete
 
 extern uint16_t igmpsend(SOCKET s, const uint8_t * buf, uint16_t len);
 
+extern void printSocketStatus(uint8_t num);
+
+
+
 // Functions to allow buffered UDP send (i.e. where the UDP datagram is built up over a
 // number of calls before being sent
 /*

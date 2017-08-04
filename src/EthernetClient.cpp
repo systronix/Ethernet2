@@ -163,6 +163,29 @@ EthernetClient::operator bool() {
   return _sock != MAX_SOCK_NUM;
 }
 
+/**
+Test if this clients on each side of == are the same
+This was pulled into Arduino in 2013
+@see https://github.com/arduino/Arduino/commit/ca37de4ba4ecbdb941f14ac1fe7dd40f3008af75
+*/
 bool EthernetClient::operator==(const EthernetClient& rhs) {
   return _sock == rhs._sock && _sock != MAX_SOCK_NUM && rhs._sock != MAX_SOCK_NUM;
 }
+
+/**
+Obtain remote IP Address and Port known to WIZnet chip
+
+This pull request was rejected in 2013 Nov
+@see https://github.com/arduino/Arduino/commit/ca37de4ba4ecbdb941f14ac1fe7dd40f3008af75
+*/
+ IPAddress EthernetClient::remoteIP() {
+   if (_sock == MAX_SOCK_NUM) return IPAddress(0,0,0,0);
+   uint32_t _destaddress;
+   w5500.readSnDIPR(_sock,(uint8_t*) &_destaddress);
+   return IPAddress(_destaddress);
+ }
+ 
+ uint16_t EthernetClient::remotePort() {
+   if (_sock == MAX_SOCK_NUM) return 0;
+   return w5500.readSnDPORT(_sock);
+ }

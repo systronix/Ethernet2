@@ -12,6 +12,7 @@
 
 #include <inttypes.h>
 #include "utility/w5500.h"
+#include "utility/socket.h" // bboyes
 #include "IPAddress.h"
 #include "EthernetClient.h"
 #include "EthernetServer.h"
@@ -55,6 +56,12 @@ public:
   void begin(uint8_t *mac_address, IPAddress local_ip, IPAddress dns_server, IPAddress gateway, IPAddress subnet);
 
 #endif
+
+  // bboyes 20170714
+  static void printSocketStatus(uint8_t);   // print one or more socket status starting with [0]
+
+  // bboyes 20170716
+  static void printSocketStatusX(uint8_t);    // print any one socket status  
   
   int maintain();
 

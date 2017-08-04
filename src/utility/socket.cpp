@@ -410,3 +410,65 @@ int sendUDP(SOCKET s)
   return 1;
 }
 
+/**
+  Read the status of a single socket
+  @param s the socket #, 0 >= s < MAX_SOCK_NUM
+*/
+uint8_t socketStatus(uint8_t s)
+{
+  uint8_t status = w5500.readSnSR(s);
+  return status;
+}
+
+static const char *SnMr[] = {"Close", "TCP", "UDP", "IPRAW", "MACRAW"};
+char socStatus[8];      // 7 char plus null terminator
+
+/**
+  From drmartin 
+  @link https://forum.pjrc.com/threads/43572-Optimization-Fast-Faster-Fastest-with-without-LTO?p=148431#post148431
+  <a href="https://forum.pjrc.com/threads/43572-Optimization-Fast-Faster-Fastest-with-without-LTO?p=148431#post148431">PJRC Forum sockets discussion</a>
+
+  Print out status of all 8 sockets in WIZ850io. Only 4 are currently supported in Arduino Ethernet, but 8 are there.
+  @param num - how many sockets to report, [0] thru [n-1], n is a max of 8. Only 4 supported in Arduino.
+*/
+void printSocketStatus(uint8_t num)
+{
+  for (uint8_t i = 0; i < num; i++) 
+  {
+    switch (socketStatus(i)) 
+    {
+      case 0x00:
+        sprintf(socStatus, "Closed");
+        break;
+      case 0x14:
+        sprintf(socStatus,"Listen");
+        break;
+      case 0x17:
+       sprintf(socStatus, "Establ");
+        break;
+      case 0x1C:
+        sprintf(socStatus, "ClsWait");
+        break;
+      case 0x22:
+        sprintf(socStatus, "Open");   // open in UDP mode
+        break;
+      default:
+        sprintf(socStatus, "0x%02X  ", socketStatus(i));
+        break;
+    }
+
+    Serial.printf("    Socket(%d) SnSr = %s SnMR = %s\r\n", i, socStatus, SnMr[w5500.readSnMR(i)]);
+  } // end of for loop
+}
+
+/**
+  Print one socket status
+
+  @param num - the socket number [0..7], only 0..3 supported in Arduino. If > 7, it's set to 7
+
+*/
+void printSocketStatusX(uint8_t num)
+{
+  if (num > 7) num = 7;
+  Serial.printf("    Socket(%d) SnSr = %s SnMR = %s\r\n", num, socStatus, SnMr[w5500.readSnMR(num)]);
+}

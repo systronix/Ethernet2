@@ -27,6 +27,11 @@ public:
   virtual bool operator==(const EthernetClient&);
   virtual bool operator!=(const EthernetClient& rhs) { return !this->operator==(rhs); };
 
+  // bboyes 20170803 for remote IP address access
+  // @see https://github.com/arduino/Arduino/commit/ca37de4ba4ecbdb941f14ac1fe7dd40f3008af75
+  virtual IPAddress remoteIP();
+  virtual uint16_t remotePort();
+
   friend class EthernetServer;
   
   using Print::write;
