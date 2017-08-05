@@ -184,6 +184,16 @@ This pull request was rejected in 2013 Nov
    w5500.readSnDIPR(_sock,(uint8_t*) &_destaddress);
    return IPAddress(_destaddress);
  }
+
+/**
+ get the remote IP address of a specific socket
+*/
+  IPAddress EthernetClient::remoteIP(uint8_t socket) {
+   if (socket == MAX_SOCK_NUM) return IPAddress(0,0,0,0);
+   uint32_t _destaddress;
+   w5500.readSnDIPR(socket,(uint8_t*) &_destaddress);
+   return IPAddress(_destaddress);
+ }
  
  uint16_t EthernetClient::remotePort() {
    if (_sock == MAX_SOCK_NUM) return 0;

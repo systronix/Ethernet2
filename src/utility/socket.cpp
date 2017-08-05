@@ -6,6 +6,7 @@
  
 #include "utility/w5500.h"
 #include "utility/socket.h"
+#include "IPAddress.h"
 
 static uint16_t local_port;
 
@@ -433,6 +434,7 @@ char socStatus[8];      // 7 char plus null terminator
 */
 void printSocketStatus(uint8_t num)
 {
+  uint32_t _destaddress;
   for (uint8_t i = 0; i < num; i++) 
   {
     switch (socketStatus(i)) 
@@ -457,7 +459,11 @@ void printSocketStatus(uint8_t num)
         break;
     }
 
-    Serial.printf("    Socket(%d) SnSr = %s SnMR = %s\r\n", i, socStatus, SnMr[w5500.readSnMR(i)]);
+    Serial.printf("    Socket(%d) SnSr=%s SnMR=%s IP=", i, socStatus, SnMr[w5500.readSnMR(i)]);
+
+   w5500.readSnDIPR(i,(uint8_t*) &_destaddress);
+   Serial.println (IPAddress(_destaddress));
+  
   } // end of for loop
 }
 

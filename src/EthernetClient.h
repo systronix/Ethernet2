@@ -30,6 +30,7 @@ public:
   // bboyes 20170803 for remote IP address access
   // @see https://github.com/arduino/Arduino/commit/ca37de4ba4ecbdb941f14ac1fe7dd40f3008af75
   virtual IPAddress remoteIP();
+  virtual IPAddress remoteIP(uint8_t socket);
   virtual uint16_t remotePort();
 
   friend class EthernetServer;
