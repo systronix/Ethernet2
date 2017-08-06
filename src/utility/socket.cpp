@@ -441,6 +441,7 @@ void printSocketStatus(uint8_t num)
 
   for (uint8_t i = 0; i < num; i++) 
   {
+    // i is the socket number we are inspecting. It doesn't change until end of for loop
     sockstat = socketStatus(i);
     switch (sockstat) 
     {
@@ -482,7 +483,7 @@ void printSocketStatus(uint8_t num)
   
   Serial.println();
 
-  } // end of for loop
+  } // end of for loop, socket number increments
 }
 
 /**
