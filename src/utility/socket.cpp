@@ -434,10 +434,15 @@ char socStatus[8];      // 7 char plus null terminator
 */
 void printSocketStatus(uint8_t num)
 {
-  uint32_t _destaddress;
+  uint32_t _destaddress;    // remote IP address as uint32
+  uint8_t  _destmac[6];     // remote mac address as uint8 array of 6 bytes
+  uint16_t _destport;       // remote Port
+  uint8_t   sockstat;
+
   for (uint8_t i = 0; i < num; i++) 
   {
-    switch (socketStatus(i)) 
+    sockstat = socketStatus(i);
+    switch (sockstat) 
     {
       case 0x00:
         sprintf(socStatus, "Closed");
@@ -459,11 +464,24 @@ void printSocketStatus(uint8_t num)
         break;
     }
 
-    Serial.printf("    Socket(%d) SnSr=%s SnMR=%s IP=", i, socStatus, SnMr[w5500.readSnMR(i)]);
+    Serial.printf("    Socket(%d) SnSr=%s SnMR=%s", i, socStatus, SnMr[w5500.readSnMR(i)]);
 
-   w5500.readSnDIPR(i,(uint8_t*) &_destaddress);
-   Serial.println (IPAddress(_destaddress));
+    // if not listening, print remote connection details. If listening, there is no remote connection yet...
+    if (sockstat != 0x14)
+    {
+      Serial.printf(" IP=");
+      w5500.readSnDIPR(i,(uint8_t*) &_destaddress);
+      Serial.print (IPAddress(_destaddress));
+
+      _destport = w5500.readSnDPORT(i);
+      Serial.printf(" Port=%u", _destport);
+
+      w5500.readSnDHAR(i, _destmac);
+      Serial.printf(" MAC=%02X:%02X:%02X:%02X:%02X:%02X", _destmac[0], _destmac[1], _destmac[2], _destmac[3], _destmac[4], _destmac[5]);
+    }
   
+  Serial.println();
+
   } // end of for loop
 }
 

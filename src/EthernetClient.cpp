@@ -86,6 +86,14 @@ size_t EthernetClient::write(const uint8_t *buf, size_t size) {
   return size;
 }
 
+/**
+  This is the test to see if client is "available". Return nonzero if data is available.
+
+  @return the size of available RX data for the current socket, which will be > 0 if data received, if the current socket number
+  is less than MAX_SOCK_NUM.
+  Could it ever be zero if nothing has been received yet?
+  Else return 0 (if socket number is == MAX_SOCK_NUM)
+*/
 int EthernetClient::available() {
   if (_sock != MAX_SOCK_NUM)
     return w5500.getRXReceivedSize(_sock);
