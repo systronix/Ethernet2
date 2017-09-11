@@ -10,6 +10,31 @@ For some documentation on the functions in this library, see
 http://www.arduino.cc/en/Reference/Ethernet
 but note that this is **note** the Arduino Ethernet library. It just supports many of the same functions.
 
+## Changes to this Systronix Fork
+Several enhancements have been added to make this library more useful.
+- Read of remote IP address. Know who is trying to connect to your system. This seems like such an obvious need but it's not in the Arduino library.
+- Read remote IP port
+- Read status of each socket
+
+### EthernetClient.cpp
+#### IPAddress EthernetClient::remoteIP()
+return remote IP address of current socket
+#### IPAddress EthernetClient::remoteIP(uint8_t socket)
+return remote IP address of a specific socket
+#### uint16_t EthernetClient::remotePort()
+return remote port of current socket
+
+### Ethernet2.cpp
+Socket status for all 8 supported sockets. This is helpful for debugging, for example, am I about to run out of sockets? If so, why? Do I have zombie sockets in a persistent close-wait state?
+#### static void printSocketStatusX(uint8_t); 
+print any one socket status 
+####  static void printSocketStatus(uint8_t); 
+print one or more socket status starting with [0]
+
+Output can look like this:
+	Socket(1) SnSr=Establ SnMR=TCP IP=192.168.1.1 Port=52645 MAC=20:CF:30:B8:3D:ED
+
+
 ## Example Programs
 Lots of examples using this library, many tested 24/7 for months (as of 2017 Sep), with some documentation and an attempt at useful comments in the code
 
